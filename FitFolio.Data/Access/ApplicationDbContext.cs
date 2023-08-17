@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FitFolio.Data.Access
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(string connectionString)
             : base(GetOptions(connectionString))

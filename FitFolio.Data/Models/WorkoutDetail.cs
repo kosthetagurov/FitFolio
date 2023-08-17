@@ -10,7 +10,7 @@ namespace FitFolio.Data.Models
     public class WorkoutDetail
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Guid WorkoutId { get; set; }
         public Guid ExerciseId { get; set; }
         public TimeSpan Duration { get; set; }
