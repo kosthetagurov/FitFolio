@@ -42,7 +42,7 @@ namespace FitFolio.Controllers
         [Route("/api/auth/register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !model.IsPasswordsSame())
             {
                 return BadRequest(ModelState);
             }

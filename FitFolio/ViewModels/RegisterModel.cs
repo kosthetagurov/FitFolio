@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 
 namespace FitFolio.ViewModels
 {
@@ -11,5 +12,20 @@ namespace FitFolio.ViewModels
         [Required]
         [MinLength(7)] 
         public string Password { get; set; }
+        [Required]
+        [MinLength(7)]
+        public string RePassword { get; set; }
+
+        public bool IsPasswordsSame()
+        {
+            bool result = true;
+
+            if (Password != RePassword)
+            {
+                result = false;
+            }
+
+            return result;
+        }
     }
 }
