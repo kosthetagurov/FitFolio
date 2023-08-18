@@ -1,6 +1,7 @@
 using FitFolio.Authorization;
 using FitFolio.Data.Access;
 using FitFolio.Data.Models;
+using FitFolio.Data.DependencyInjection;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -12,24 +13,30 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddFitFolioData(new DataAccessLayerOptions(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(
-        options =>
-        {
-            options.SignIn.RequireConfirmedAccount = false;
-            options.User.RequireUniqueEmail = false;
-            options.SignIn.RequireConfirmedEmail = false;
+    options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = false;
+        options.SignIn.RequireConfirmedEmail = false;
 
-            options.Password.RequireDigit = true;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 7;            
-        }).AddEntityFrameworkStores<ApplicationDbContext>();
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 7;
+    })
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddUserManager<UserManager<ApplicationUser>>()
+    .AddRoles<ApplicationRole>()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -48,8 +55,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddSingleton(provider =>
 {
-    var userManager = provider.GetService<UserManager<ApplicationUser>>();
-    var configuration = provider.GetService<IConfiguration>();
+    using var scope = provider.CreateScope();
+    var services = scope.ServiceProvider;
+
+    var userManager = services.GetService<UserManager<ApplicationUser>>();
+    var configuration = services.GetService<IConfiguration>();
 
     return new JwtTokenGenerator(configuration, userManager);
 });
@@ -63,6 +73,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSession();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -70,9 +82,19 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    /*endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");*/
+
+    endpoints.MapControllers();
+});
 
 app.MapFallbackToFile("index.html");
 

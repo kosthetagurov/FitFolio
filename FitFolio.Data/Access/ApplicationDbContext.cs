@@ -11,11 +11,17 @@ using System.Threading.Tasks;
 
 namespace FitFolio.Data.Access
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(string connectionString)
             : base(GetOptions(connectionString))
         {
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+            
         }
 
         private static DbContextOptions GetOptions(string connectionString)

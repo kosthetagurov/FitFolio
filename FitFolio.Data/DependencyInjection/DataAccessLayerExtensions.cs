@@ -28,6 +28,10 @@ namespace FitFolio.Data.DependencyInjection
                 return new RepositoryFactory(options.ConnectionString);
             });
 
+            var context = services.BuildServiceProvider()
+                      .GetService<ApplicationDbContext>();
+            context.Database.Migrate();
+
             return services;
         }
     }
