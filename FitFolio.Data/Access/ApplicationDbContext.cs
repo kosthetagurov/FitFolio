@@ -1,5 +1,6 @@
 ﻿using FitFolio.Data.Models;
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FitFolio.Data.Access
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(string connectionString)
             : base(GetOptions(connectionString))
