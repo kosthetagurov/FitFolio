@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FitFolio.Data.Access
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(string connectionString)
             : base(GetOptions(connectionString))
