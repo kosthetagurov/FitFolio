@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Authorize } from '../Authorization/Authorize';
 
-export class Counter extends Component {
+class Counter extends Component {
   static displayName = Counter.name;
 
   constructor(props) {
@@ -29,3 +30,5 @@ export class Counter extends Component {
     );
   }
 }
+
+export default Authorize(Counter)

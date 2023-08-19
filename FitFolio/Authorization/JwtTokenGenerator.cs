@@ -27,7 +27,8 @@ namespace FitFolio.Authorization
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim("UserPublicData", user.GetUserPublicDataJson())
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);

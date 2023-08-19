@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "./Authorize";
 
 const Registration = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRePassword] = useState("");
+    const [errors, setErrors] = useState("");
 
     const handleRegister = async () => {
         try {
@@ -13,18 +16,24 @@ const Registration = () => {
                 password,
                 repassword
             });
-
-           console.log(response.data.message);
-            // Перенаправьте пользователя на страницу входа или выполните другие действия
-
+            debugger;
+            const token = response.data.token.result;
+            // Сохраните токен в localStorage или cookies
+            localStorage.token = token;
+            window.location.reload(); 
         } catch (error) {
-            console.error("Ошибка регистрации", error);
+            debugger;
+            var errors = error.response.data;
+            setErrors(errors?.map(x => x.description));
         }
     };
 
-    return (
+    return (isAuthenticated() ? (<Navigate to="/"></Navigate>) :
         <div className="container">
             <h2>Регистрация</h2>
+            {errors && errors?.map((item, index) => (
+                <p style={{ color: "red" }}>{item}</p>
+            ))}
             <form>
                 <div className="form-group">
                     <label>Email:</label>

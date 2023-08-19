@@ -36,6 +36,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(
     .AddRoles<ApplicationRole>()
     .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddErrorDescriber<CustomIdentityErrorDescriber>()    
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

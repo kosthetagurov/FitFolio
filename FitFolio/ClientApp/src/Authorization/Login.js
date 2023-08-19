@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "./Authorize";
 
 const Login = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleLogin = async () => {
         try {
@@ -16,15 +19,17 @@ const Login = () => {
             // Сохраните токен в localStorage или cookies
             localStorage.token = token;
 
-            // Перенаправьте пользователя на другую страницу
+            window.location.reload(); 
         } catch (error) {
             console.error("Ошибка входа", error);
+            setErrorMessage("Неверное имя пользователя и (или) пароль");
         }
     };
 
-    return (
+    return isAuthenticated() ? (<Navigate to="/"></Navigate>) : (
         <div className="container">
             <h2>Вход</h2>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             <form>
                 <div className="form-group">
                     <label>Email:</label>

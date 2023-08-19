@@ -46,9 +46,16 @@ namespace FitFolio.Controllers
         [Route("/api/auth/register")]
         public async Task<IActionResult> Register([FromBody]RegisterModel model)
         {
-            if (!ModelState.IsValid || !model.IsPasswordsSame())
+            if (!model.IsPasswordsSame())
             {
-                return BadRequest(ModelState);
+                return BadRequest(new List<IdentityError>()
+                {
+                    new IdentityError()
+                    {
+                        Code = "PasswordsMustBeSame",
+                        Description = "Пароли должны совпадать"
+                    }
+                });
             }
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
