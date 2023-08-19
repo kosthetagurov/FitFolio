@@ -20,27 +20,31 @@ namespace FitFolio.Controllers
 
         [HttpPost]
         [Route("/api/auth/login")]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login([FromBody]LoginModel model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Login?.Trim(), model.Password?.Trim(), model.RememberMe, false);
+            var user = await _signInManager.UserManager.FindByNameAsync(model.Login);
+
+            if (user == null)
+            {
+                return NotFound($"The user with username - {model.Login} was not found");
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password?.Trim(), model.RememberMe, false);
 
             if (result.Succeeded)
             {
-                var user = await _signInManager.UserManager.FindByNameAsync(model.Login);
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                var token = _jwtTokenGenerator.GenerateToken(user);
-
+                var token = await _jwtTokenGenerator.GenerateToken(user);
                 return Ok(new { Token = token });
             }
             else
             {
                 return BadRequest(result);
-            }                      
+            }
         }
 
         [HttpPost]
         [Route("/api/auth/register")]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterModel model)
         {
             if (!ModelState.IsValid || !model.IsPasswordsSame())
             {

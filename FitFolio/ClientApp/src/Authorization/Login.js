@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-    const [username, setUserName] = useState("");
+    const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = async () => {
         try {
             const response = await axios.post("/api/auth/login", {
-                username,
+                login,
                 password,
             });
 
             const token = response.data.token;
             // Сохраните токен в localStorage или cookies
+            localStorage.token = token;
 
             // Перенаправьте пользователя на другую страницу
         } catch (error) {
@@ -31,7 +32,7 @@ const Login = () => {
                         type="email"
                         className="form-control"
                         placeholder="Введите email"
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => setLogin(e.target.value)}
                     />
                 </div>
                 <div className="form-group">
