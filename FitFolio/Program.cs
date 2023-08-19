@@ -53,16 +53,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddSingleton(provider =>
-{
-    using var scope = provider.CreateScope();
-    var services = scope.ServiceProvider;
-
-    var userManager = services.GetService<UserManager<ApplicationUser>>();
-    var configuration = services.GetService<IConfiguration>();
-
-    return new JwtTokenGenerator(configuration, userManager);
-});
+builder.Services.AddScoped<JwtTokenGenerator>();
 
 var app = builder.Build();
 
