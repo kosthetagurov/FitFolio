@@ -1,7 +1,6 @@
 ﻿using FitFolio.Authorization;
 using FitFolio.Data.Models;
 using FitFolio.ViewModels;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,7 +62,6 @@ namespace FitFolio.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
                 var token = _jwtTokenGenerator.GenerateToken(user);
                 return Ok(new { Token = token });
             }

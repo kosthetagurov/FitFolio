@@ -1,4 +1,4 @@
-﻿using FitFolio.Data.Models;
+﻿ using FitFolio.Data.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -6,13 +6,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+ 
 namespace FitFolio.Authorization
 {
     public class JwtTokenGenerator
     {
-        string jwtSecurityKey;
-        UserManager<ApplicationUser> _userManager;
+        private readonly string jwtSecurityKey;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public JwtTokenGenerator(IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
@@ -23,11 +23,11 @@ namespace FitFolio.Authorization
         public async Task<string> GenerateToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecurityKey));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim("username", user.UserName),
                 new Claim("UserPublicData", user.GetUserPublicDataJson())
             };
 
@@ -37,12 +37,12 @@ namespace FitFolio.Authorization
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var token = new JwtSecurityToken(jwtSecurityKey,
-                AppDomain.CurrentDomain.FriendlyName,
-                claims,
+            var token = new JwtSecurityToken(
+                issuer: AppDomain.CurrentDomain.FriendlyName,
+                audience: "React APP",
+                claims: claims,
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: credentials);
-
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
