@@ -17,7 +17,7 @@ const Logout = () => {
     };
 
     return (
-        <a role="button" className="text-dark" onClick={handleLogout}>Выход</a>
+        <a role="button" className="text-dark nav-link" onClick={handleLogout}>Выход</a>
     );
 };
 
