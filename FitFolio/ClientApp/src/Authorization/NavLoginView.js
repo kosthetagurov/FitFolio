@@ -4,18 +4,14 @@ import { Link } from 'react-router-dom';
 import '../../src/components/NavMenu.css';
 import { getUserData, isAuthenticated } from "./Authorize";
 import Logout from './Logout';
+import ProfileMenu from './ProfileMenu.js'
 
 const NavLoginView = () => {
     if (isAuthenticated()) {
         var userData = getUserData();
         return (
             <ul className="navbar-nav flex-grow">
-                <NavItem>
-                    <span className="nav-link">{userData.UserName}</span>
-                </NavItem>
-                <NavItem>
-                    <Logout />
-                </NavItem>
+                <ProfileMenu />
             </ul>
         )
     } else {
