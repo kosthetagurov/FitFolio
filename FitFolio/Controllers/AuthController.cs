@@ -1,11 +1,14 @@
 ﻿using FitFolio.Authorization;
 using FitFolio.Data.Models;
 using FitFolio.ViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitFolio.Controllers
 {
+    [ApiController]
     public class AuthController : Controller
     {
         JwtTokenGenerator _jwtTokenGenerator;
@@ -28,7 +31,7 @@ namespace FitFolio.Controllers
                 return NotFound($"The user with username - {model.Login} was not found");
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password?.Trim(), model.RememberMe, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password?.Trim(), false);
 
             if (result.Succeeded)
             {
@@ -39,6 +42,14 @@ namespace FitFolio.Controllers
             {
                 return BadRequest(result);
             }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "user")]
+        [Route("/api/auth/test")]
+        public IActionResult Test()
+        {
+            return new JsonResult("12345");
         }
 
         [HttpPost]
@@ -59,6 +70,8 @@ namespace FitFolio.Controllers
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await _signInManager.UserManager.CreateAsync(user, model.Password);
+
+            await _signInManager.UserManager.AddToRoleAsync(user, "admin");
 
             if (result.Succeeded)
             {

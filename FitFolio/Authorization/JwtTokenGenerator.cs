@@ -23,7 +23,7 @@ namespace FitFolio.Authorization
         public async Task<string> GenerateToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecurityKey));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>()
             {
@@ -41,7 +41,7 @@ namespace FitFolio.Authorization
                 issuer: AppDomain.CurrentDomain.FriendlyName,
                 audience: "React APP",
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(5)),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
