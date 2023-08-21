@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./Authorize";
 
 const Registration = () => {
@@ -9,6 +9,11 @@ const Registration = () => {
     const [repassword, setRePassword] = useState("");
     const [errors, setErrors] = useState("");
 
+    const formStyles = {
+        width: "60%",
+        margin: "0 auto"
+    }
+
     const handleRegister = async () => {
         try {
             const response = await axios.post("/api/auth/register", {
@@ -16,13 +21,12 @@ const Registration = () => {
                 password,
                 repassword
             });
-            debugger;
+
             const token = response.data.token.result;
             // Сохраните токен в localStorage или cookies
             localStorage.token = token;
             window.location.reload(); 
         } catch (error) {
-            debugger;
             var errors = error.response.data;
             setErrors(errors?.map(x => x.description));
         }
@@ -30,40 +34,51 @@ const Registration = () => {
 
     return (isAuthenticated() ? (<Navigate to="/"></Navigate>) :
         <div className="container">
-            <h2>Регистрация</h2>
+            <h2 className="text-center">Регистрация</h2>
             {errors && errors?.map((item, index) => (
                 <p style={{ color: "red" }}>{item}</p>
             ))}
-            <form>
-                <div className="form-group">
-                    <label>Email:</label>
+            <form style={formStyles}>
+                <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="email">Email</label>
                     <input
                         type="email"
                         className="form-control"
                         placeholder="Введите email"
                         onChange={(e) => setEmail(e.target.value)}
+                        id="email"
                     />
                 </div>
-                <div className="form-group">
-                    <label>Пароль:</label>
+
+                <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="passowrd">Пароль</label>
                     <input
                         type="password"
                         className="form-control"
                         placeholder="Введите пароль"
                         onChange={(e) => setPassword(e.target.value)}
+                        id="passowrd"
                     />
                 </div>
-                <div className="form-group">
-                    <label>Повторите пароль:</label>
+
+                <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="passowrd">Повторите пароль</label>
                     <input
                         type="password"
                         className="form-control"
                         placeholder="Повторите пароль"
                         onChange={(e) => setRePassword(e.target.value)}
+                        id="passowrd"
                     />
                 </div>
-                <button type="button" className="btn btn-primary" onClick={handleRegister}>Зарегистрироваться</button>
-            </form>
+
+                
+
+                <div className="text-center">
+                    <button type="button" className="btn btn-primary btn-block mb-4" onClick={handleRegister}>Зарегистрироваться</button>
+                    <p>Есть аккаунт? <Link to="/login">Войти</Link></p>
+                </div>
+            </form>            
         </div>
     );
 };
