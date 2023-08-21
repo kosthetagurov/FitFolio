@@ -71,7 +71,7 @@ namespace FitFolio.Controllers
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await _signInManager.UserManager.CreateAsync(user, model.Password);
 
-            await _signInManager.UserManager.AddToRoleAsync(user, "admin");
+            // await _signInManager.UserManager.AddToRoleAsync(user, "admin");
 
             if (result.Succeeded)
             {
