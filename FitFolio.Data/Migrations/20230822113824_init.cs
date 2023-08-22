@@ -212,7 +212,8 @@ namespace FitFolio.Data.Migrations
                         name: "FK_Exercises_ExerciseCategories_ExerciseCategoryId",
                         column: x => x.ExerciseCategoryId,
                         principalTable: "ExerciseCategories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

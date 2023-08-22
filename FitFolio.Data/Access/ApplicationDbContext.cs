@@ -24,6 +24,21 @@ namespace FitFolio.Data.Access
             
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ExerciseCategory>()
+                .HasMany(x => x.Exercises)
+                .WithOne(x => x.ExerciseCategory)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Workout>()
+                .HasMany(x => x.WorkoutDetails)
+                .WithOne(x => x.Workout)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(builder);
+        }
+
         private static DbContextOptions GetOptions(string connectionString)
         {
             return NpgsqlDbContextOptionsBuilderExtensions.UseNpgsql(new DbContextOptionsBuilder(), connectionString).Options;

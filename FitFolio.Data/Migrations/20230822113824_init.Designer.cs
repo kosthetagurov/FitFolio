@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FitFolio.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230822100049_init")]
+    [Migration("20230822113824_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -346,7 +346,8 @@ namespace FitFolio.Data.Migrations
                 {
                     b.HasOne("FitFolio.Data.Models.ExerciseCategory", "ExerciseCategory")
                         .WithMany("Exercises")
-                        .HasForeignKey("ExerciseCategoryId");
+                        .HasForeignKey("ExerciseCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ExerciseCategory");
                 });
@@ -371,7 +372,7 @@ namespace FitFolio.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("FitFolio.Data.Models.Workout", "Workout")
-                        .WithMany()
+                        .WithMany("WorkoutDetails")
                         .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -435,6 +436,11 @@ namespace FitFolio.Data.Migrations
             modelBuilder.Entity("FitFolio.Data.Models.ExerciseCategory", b =>
                 {
                     b.Navigation("Exercises");
+                });
+
+            modelBuilder.Entity("FitFolio.Data.Models.Workout", b =>
+                {
+                    b.Navigation("WorkoutDetails");
                 });
 #pragma warning restore 612, 618
         }
