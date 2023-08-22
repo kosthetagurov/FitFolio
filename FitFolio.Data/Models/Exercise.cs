@@ -17,7 +17,7 @@ namespace FitFolio.Data.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Logo { get; set; }
-
-        public virtual ExerciseCategory ExerciseCategory { get; set; }
+        public Guid? ExerciseCategoryId { get; set; }
+        public virtual ExerciseCategory? ExerciseCategory { get; set; }
     }
 }

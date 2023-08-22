@@ -17,6 +17,7 @@ namespace FitFolio.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    AutoAssignable = table.Column<bool>(type: "boolean", nullable: false),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
@@ -202,7 +203,7 @@ namespace FitFolio.Data.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Logo = table.Column<string>(type: "text", nullable: false),
-                    ExerciseCategoryId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ExerciseCategoryId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,8 +212,7 @@ namespace FitFolio.Data.Migrations
                         name: "FK_Exercises_ExerciseCategories_ExerciseCategoryId",
                         column: x => x.ExerciseCategoryId,
                         principalTable: "ExerciseCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
