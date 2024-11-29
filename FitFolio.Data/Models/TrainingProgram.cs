@@ -2,15 +2,15 @@
 
 namespace FitFolio.Data.Models
 {
-    /// <summary>
-    /// Категория упражнения
-    /// </summary>
-    public class ExerciseCategory
+    public class TrainingProgram
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        public Guid? UserId { get; set; }
         public string Name { get; set; } = null!;
+        public string? Description { get; set; }
 
-        public ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public ICollection<TrainingProgramWorkout> Workouts { get; set; } = new List<TrainingProgramWorkout>();
     }
+
 }

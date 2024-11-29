@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FitFolio.Data.Access;
 
 namespace FitFolio.Data.Repositories
 {
     public class RepositoryFactory
     {
-        string _connectionString;
-        public RepositoryFactory(string connectionString)
+        ApplicationDbContext _dbContext;
+
+        public RepositoryFactory(ApplicationDbContext dbContext)
         {
-            _connectionString = connectionString;
+            _dbContext = dbContext;
         }
 
         public T CreateRepository<T>() where T : class
         {
-            return (T)Activator.CreateInstance(typeof(T), _connectionString);
+            return (T)Activator.CreateInstance(typeof(T), _dbContext);
         }
     }
 }

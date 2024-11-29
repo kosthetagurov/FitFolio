@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitFolio.Data.Models
 {
@@ -14,10 +9,11 @@ namespace FitFolio.Data.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Logo { get; set; }
-        public Guid? ExerciseCategoryId { get; set; }
-        public virtual ExerciseCategory? ExerciseCategory { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
+        public Guid CategoryId { get; set; }
+
+        public ExerciseCategory Category { get; set; } = null!;
     }
+
 }

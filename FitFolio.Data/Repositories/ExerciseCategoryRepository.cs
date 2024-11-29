@@ -1,25 +1,21 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FitFolio.Data.Repositories
 {
     public class ExerciseCategoryRepository : RepositoryBase<ExerciseCategory>
     {
-        public ExerciseCategoryRepository(string connectionString)
-            : base(connectionString)
+        public ExerciseCategoryRepository(ApplicationDbContext dbContext)
+            : base(dbContext)
         {
         }
 
-        public override void Create(ExerciseCategory item)
+        public override ExerciseCategory Create(ExerciseCategory item)
         {
             _context.ExerciseCategories.Add(item);
             _context.SaveChanges();
+
+            return item;
         }
 
         public override void Delete(ExerciseCategory item)
@@ -34,7 +30,7 @@ namespace FitFolio.Data.Repositories
         }
 
         public override ExerciseCategory Get<TId>(TId id)
-        {
+        {            
             var _id = (Guid)Convert.ChangeType(id, typeof(Guid));
             return _context.ExerciseCategories.FirstOrDefault(x => x.Id == _id);
         }

@@ -1,52 +1,72 @@
 ﻿using FitFolio.Data.Models;
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitFolio.Data.Access
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(string connectionString)
-            : base(GetOptions(connectionString))
-        {
-        }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
             : base(options)
         {
             
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        public DbSet<Exercise> Exercises { get; set; } = null!;
+        public DbSet<ExerciseCategory> ExerciseCategories { get; set; } = null!;
+        public DbSet<TrainingProgram> TrainingPrograms { get; set; } = null!;
+        public DbSet<TrainingProgramWorkout> TrainingProgramWorkouts { get; set; } = null!;
+        public DbSet<TrainingProgramExercise> TrainingProgramExercises { get; set; } = null!;
+        public DbSet<Workout> Workouts { get; set; } = null!;
+        public DbSet<WorkoutDetail> WorkoutDetails { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<ExerciseCategory>()
-                .HasMany(x => x.Exercises)
-                .WithOne(x => x.ExerciseCategory)
+            // Exercise
+            modelBuilder.Entity<Exercise>()
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Exercises)
+                .HasForeignKey(e => e.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Workout>()
-                .HasMany(x => x.WorkoutDetails)
-                .WithOne(x => x.Workout)
+            // TrainingProgramWorkout
+            modelBuilder.Entity<TrainingProgramWorkout>()
+                .HasOne(w => w.Program)
+                .WithMany(p => p.Workouts)
+                .HasForeignKey(w => w.ProgramId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            base.OnModelCreating(builder);
-        }
+            // TrainingProgramExercise
+            modelBuilder.Entity<TrainingProgramExercise>()
+                .HasOne(te => te.Workout)
+                .WithMany(tw => tw.Exercises)
+                .HasForeignKey(te => te.WorkoutId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-        private static DbContextOptions GetOptions(string connectionString)
-        {
-            return NpgsqlDbContextOptionsBuilderExtensions.UseNpgsql(new DbContextOptionsBuilder(), connectionString).Options;
-        }
+            modelBuilder.Entity<TrainingProgramExercise>()
+                .HasOne(te => te.Exercise)
+                .WithMany()
+                .HasForeignKey(te => te.ExerciseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-        public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<ExerciseCategory> ExerciseCategories { get; set; }
-        public DbSet<Workout> Workouts { get; set; }
-        public DbSet<WorkoutDetail> WorkoutDetails { get; set; }
+            // ActualWorkout
+            modelBuilder.Entity<Workout>()
+                .HasOne(aw => aw.ProgramWorkout)
+                .WithMany()
+                .HasForeignKey(aw => aw.ProgramWorkoutId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ActualWorkoutExercise
+            modelBuilder.Entity<WorkoutDetail>()
+                .HasOne(awe => awe.Workout)
+                .WithMany(aw => aw.Details)
+                .HasForeignKey(awe => awe.WorkoutId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<WorkoutDetail>()
+                .HasOne(awe => awe.Exercise)
+                .WithMany()
+                .HasForeignKey(awe => awe.ExerciseId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using FitFolio.Data.Access;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FitFolio.Data.Repositories
 {
     public abstract class RepositoryBase<T> : IRepository<T>
@@ -13,12 +7,12 @@ namespace FitFolio.Data.Repositories
     {
         protected ApplicationDbContext _context;
 
-        public RepositoryBase(string connectionString)
+        public RepositoryBase(ApplicationDbContext dbContext)
         {
-            _context = new ApplicationDbContext(connectionString);
+            _context = dbContext;
         }
 
-        public abstract void Create(T item);
+        public abstract T Create(T item);
 
         public abstract void Delete(T item);
 

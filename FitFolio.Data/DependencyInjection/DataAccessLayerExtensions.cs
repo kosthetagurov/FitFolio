@@ -1,16 +1,8 @@
 ﻿using FitFolio.Data.Access;
-using FitFolio.Data.Models;
 using FitFolio.Data.Repositories;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitFolio.Data.DependencyInjection
 {
@@ -21,16 +13,28 @@ namespace FitFolio.Data.DependencyInjection
             services.AddDbContext<ApplicationDbContext>(o =>
             {
                 o.UseNpgsql(options.ConnectionString);
-            });
+            }, ServiceLifetime.Transient);
 
-            services.AddScoped<RepositoryFactory>(provider =>
+            services.AddTransient<RepositoryFactory>(provider =>
             {
-                return new RepositoryFactory(options.ConnectionString);
+                var context = provider.GetService<ApplicationDbContext>();
+
+                return new RepositoryFactory(context);
             });
 
-            var context = services.BuildServiceProvider()
-                      .GetService<ApplicationDbContext>();
-            context.Database.Migrate();
+            var baseInterface = typeof(IRepository);
+            var repositoryImpl = baseInterface
+                .Assembly
+                .GetTypes()
+                .Where(type => type.IsClass && type.GetInterfaces().Contains(baseInterface) && type.IsAbstract == false);
+
+            foreach (var repository in repositoryImpl)
+            {
+                foreach (var repositoryInterface in repository.GetInterfaces().Where(i => i.GetInterfaces().Contains(baseInterface)))
+                {
+                    services.AddScoped(repositoryInterface, repository);
+                }                    
+            }
 
             return services;
         }

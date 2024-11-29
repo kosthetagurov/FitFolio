@@ -1,25 +1,21 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FitFolio.Data.Repositories
 {
     public class ExerciseRepository : RepositoryBase<Exercise>
     {
-        public ExerciseRepository(string connectionString)
-            : base(connectionString)
+        public ExerciseRepository(ApplicationDbContext dbContext)
+            : base(dbContext)
         {
         }
 
-        public override void Create(Exercise item)
+        public override Exercise Create(Exercise item)
         {
             _context.Exercises.Add(item);
             _context.SaveChanges();
+
+            return item;
         }
 
         public override void Delete(Exercise item)

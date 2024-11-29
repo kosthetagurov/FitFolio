@@ -14,12 +14,13 @@ namespace FitFolio.Data.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string? Description { get; set; }
-        public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime Date { get; set; }
+        public string Name { get; set; } = null!;
+        public Guid? ProgramWorkoutId { get; set; }
+        public string? Notes { get; set; }
 
-        public virtual List<WorkoutDetail> WorkoutDetails { get; set; }
+        public TrainingProgramWorkout? ProgramWorkout { get; set; }
+        public ICollection<WorkoutDetail> Details { get; set; } = new List<WorkoutDetail>();
     }
 }

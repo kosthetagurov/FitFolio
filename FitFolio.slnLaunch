@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "react + api",
+    "Projects": [
+      {
+        "Path": "FitFolio.Api\\FitFolio.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "FitFolio.WebApp\\fitfolio.webapp.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
