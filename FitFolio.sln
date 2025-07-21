@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFolio.Data", "FitFolio.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFolio.Api", "FitFolio.Api\FitFolio.Api.csproj", "{A40CB70D-D0E0-478A-8A55-1DF4DAC8986A}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "fitfolio.webapp", "FitFolio.WebApp\fitfolio.webapp.esproj", "{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFolio.Data.Models", "FitFolio.Data.Models\FitFolio.Data.Models.csproj", "{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +23,10 @@ Global
 		{A40CB70D-D0E0-478A-8A55-1DF4DAC8986A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A40CB70D-D0E0-478A-8A55-1DF4DAC8986A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A40CB70D-D0E0-478A-8A55-1DF4DAC8986A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{519A56D6-95A7-4806-9D3A-6D34DA2C51EE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

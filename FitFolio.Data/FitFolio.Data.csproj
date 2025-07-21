@@ -21,4 +21,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FitFolio.Data.Models\FitFolio.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>
