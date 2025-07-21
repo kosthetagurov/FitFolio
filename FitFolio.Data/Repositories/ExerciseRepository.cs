@@ -1,5 +1,6 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitFolio.Data.Repositories
 {
@@ -10,40 +11,40 @@ namespace FitFolio.Data.Repositories
         {
         }
 
-        public override Exercise Create(Exercise item)
+        public override async Task<Exercise> CreateAsync(Exercise item)
         {
             _context.Exercises.Add(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return item;
         }
 
-        public override void Delete(Exercise item)
+        public override async Task DeleteAsync(Exercise item)
         {
             _context.Exercises.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public override IEnumerable<Exercise> Find(Func<Exercise, bool> predicate)
+        public override async Task<IEnumerable<Exercise>> FindAsync(Func<Exercise, bool> predicate)
         {
-            return _context.Exercises.Where(predicate);
+            return await Task.FromResult(_context.Exercises.Where(predicate));
         }
 
-        public override Exercise Get<TId>(TId id)
+        public override async Task<Exercise> GetByIdAsync<TId>(TId id)
         {
             var _id = (Guid)Convert.ChangeType(id, typeof(Guid));
-            return _context.Exercises.FirstOrDefault(x => x.Id == _id);
+            return await _context.Exercises.FirstOrDefaultAsync(x => x.Id == _id);
         }
 
-        public override IEnumerable<Exercise> GetAll()
+        public override async Task<IEnumerable<Exercise>> GetAllAsync()
         {
-            return _context.Exercises.ToList();
+            return await _context.Exercises.ToListAsync();
         }
 
-        public override void Update(Exercise item)
+        public override async Task UpdateAsync(Exercise item)
         {
             _context.Exercises.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

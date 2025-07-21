@@ -12,16 +12,16 @@ namespace FitFolio.Data.Repositories
             _context = dbContext;
         }
 
-        public abstract T Create(T item);
+        public abstract Task<T> CreateAsync(T item);
 
-        public abstract void Delete(T item);
+        public abstract Task DeleteAsync(T item);
 
-        public abstract IEnumerable<T> Find(Func<T, bool> predicate);
+        public abstract Task<IEnumerable<T>> FindAsync(Func<T, bool> predicate);
 
-        public abstract T Get<TId>(TId id);
+        public abstract Task<T> GetByIdAsync<TId>(TId id);
 
-        public abstract IEnumerable<T> GetAll();
+        public abstract Task<IEnumerable<T>> GetAllAsync();
 
-        public abstract void Update(T item);
+        public abstract Task UpdateAsync(T item);
     }
 }

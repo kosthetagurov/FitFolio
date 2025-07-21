@@ -1,5 +1,6 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitFolio.Data.Repositories
 {
@@ -10,40 +11,40 @@ namespace FitFolio.Data.Repositories
         {
         }
 
-        public override ExerciseCategory Create(ExerciseCategory item)
+        public override async Task<ExerciseCategory> CreateAsync(ExerciseCategory item)
         {
             _context.ExerciseCategories.Add(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return item;
         }
 
-        public override void Delete(ExerciseCategory item)
+        public override async Task DeleteAsync(ExerciseCategory item)
         {
             _context.ExerciseCategories.Remove(item);
             _context.SaveChanges();
         }
 
-        public override IEnumerable<ExerciseCategory> Find(Func<ExerciseCategory, bool> predicate)
+        public override async Task<IEnumerable<ExerciseCategory>> FindAsync(Func<ExerciseCategory, bool> predicate)
         {
-            return _context.ExerciseCategories.Where(predicate);
+            return await Task.FromResult(_context.ExerciseCategories.Where(predicate));
         }
 
-        public override ExerciseCategory Get<TId>(TId id)
+        public override async Task<ExerciseCategory> GetByIdAsync<TId>(TId id)
         {            
             var _id = (Guid)Convert.ChangeType(id, typeof(Guid));
-            return _context.ExerciseCategories.FirstOrDefault(x => x.Id == _id);
+            return await _context.ExerciseCategories.FirstOrDefaultAsync(x => x.Id == _id);
         }
 
-        public override IEnumerable<ExerciseCategory> GetAll()
+        public override async Task<IEnumerable<ExerciseCategory>> GetAllAsync()
         {
-            return _context.ExerciseCategories.ToList();
+            return await _context.ExerciseCategories.ToListAsync();
         }
 
-        public override void Update(ExerciseCategory item)
+        public override async Task UpdateAsync(ExerciseCategory item)
         {
             _context.ExerciseCategories.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

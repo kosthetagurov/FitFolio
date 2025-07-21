@@ -1,5 +1,6 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitFolio.Data.Repositories
 {
@@ -10,40 +11,40 @@ namespace FitFolio.Data.Repositories
         {            
         }
 
-        public override WorkoutDetail Create(WorkoutDetail item)
+        public override async Task<WorkoutDetail> CreateAsync(WorkoutDetail item)
         {
             _context.WorkoutDetails.Add(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return item;
         }
 
-        public override void Delete(WorkoutDetail item)
+        public override async Task DeleteAsync(WorkoutDetail item)
         {
             _context.WorkoutDetails.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public override IEnumerable<WorkoutDetail> Find(Func<WorkoutDetail, bool> predicate)
+        public override async Task<IEnumerable<WorkoutDetail>> FindAsync(Func<WorkoutDetail, bool> predicate)
         {
-            return _context.WorkoutDetails.Where(predicate);
+            return await Task.FromResult(_context.WorkoutDetails.Where(predicate));
         }
 
-        public override WorkoutDetail Get<TId>(TId id)
+        public override async Task<WorkoutDetail> GetByIdAsync<TId>(TId id)
         {
             var _id = (Guid)Convert.ChangeType(id, typeof(Guid));
-            return _context.WorkoutDetails.FirstOrDefault(x => x.Id == _id);
+            return await _context.WorkoutDetails.FirstOrDefaultAsync(x => x.Id == _id);
         }
 
-        public override IEnumerable<WorkoutDetail> GetAll()
+        public override async Task<IEnumerable<WorkoutDetail>> GetAllAsync()
         {
-            return _context.WorkoutDetails.ToList();
+            return await _context.WorkoutDetails.ToListAsync();
         }
 
-        public override void Update(WorkoutDetail item)
+        public override async Task UpdateAsync(WorkoutDetail item)
         {
             _context.WorkoutDetails.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
