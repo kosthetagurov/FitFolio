@@ -25,4 +25,8 @@
     <ProjectReference Include="..\FitFolio.Data.Models\FitFolio.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

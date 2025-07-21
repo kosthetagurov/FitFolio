@@ -60,86 +60,6 @@ namespace FitFolio.Data.Migrations
                     b.ToTable("ExerciseCategories");
                 });
 
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgram", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TrainingPrograms");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgramExercise", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int?>("Duration")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Repetitions")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Sets")
-                        .HasColumnType("integer");
-
-                    b.Property<float?>("Weight")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.HasIndex("WorkoutId");
-
-                    b.ToTable("TrainingProgramExercises");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgramWorkout", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("ProgramId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProgramId");
-
-                    b.ToTable("TrainingProgramWorkouts");
-                });
-
             modelBuilder.Entity("FitFolio.Data.Models.Workout", b =>
                 {
                     b.Property<Guid>("Id")
@@ -163,8 +83,6 @@ namespace FitFolio.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProgramWorkoutId");
 
                     b.ToTable("Workouts");
                 });
@@ -213,46 +131,6 @@ namespace FitFolio.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgramExercise", b =>
-                {
-                    b.HasOne("FitFolio.Data.Models.Exercise", "Exercise")
-                        .WithMany()
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FitFolio.Data.Models.TrainingProgramWorkout", "Workout")
-                        .WithMany("Exercises")
-                        .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
-
-                    b.Navigation("Workout");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgramWorkout", b =>
-                {
-                    b.HasOne("FitFolio.Data.Models.TrainingProgram", "Program")
-                        .WithMany("Workouts")
-                        .HasForeignKey("ProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Program");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.Workout", b =>
-                {
-                    b.HasOne("FitFolio.Data.Models.TrainingProgramWorkout", "ProgramWorkout")
-                        .WithMany()
-                        .HasForeignKey("ProgramWorkoutId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ProgramWorkout");
-                });
-
             modelBuilder.Entity("FitFolio.Data.Models.WorkoutDetail", b =>
                 {
                     b.HasOne("FitFolio.Data.Models.Exercise", "Exercise")
@@ -273,16 +151,6 @@ namespace FitFolio.Data.Migrations
                 });
 
             modelBuilder.Entity("FitFolio.Data.Models.ExerciseCategory", b =>
-                {
-                    b.Navigation("Exercises");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgram", b =>
-                {
-                    b.Navigation("Workouts");
-                });
-
-            modelBuilder.Entity("FitFolio.Data.Models.TrainingProgramWorkout", b =>
                 {
                     b.Navigation("Exercises");
                 });

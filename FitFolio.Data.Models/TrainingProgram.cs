@@ -2,6 +2,7 @@
 
 namespace FitFolio.Data.Models
 {
+    [Obsolete(error: true, message: "Not used")]
     public class TrainingProgram
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
