@@ -9,7 +9,7 @@ namespace FitFolio.Data.Models
         Female
     }
 
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public Gender Gender { get; set; }
         public string? Bio { get; set; }
