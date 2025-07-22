@@ -1,6 +1,6 @@
 ﻿using FitFolio.Data.Access;
 using FitFolio.Data.Repositories;
-
+using FitFolio.Data.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,13 +26,17 @@ namespace FitFolio.Data.DependencyInjection
             var repositoryImpl = baseInterface
                 .Assembly
                 .GetTypes()
-                .Where(type => type.IsClass && type.GetInterfaces().Contains(baseInterface) && type.IsAbstract == false);
+                .Where(type => type.IsClass 
+                        && type.GetInterfaces().Contains(baseInterface)
+                        && type.IsAbstract == false).ToList();
 
             foreach (var repository in repositoryImpl)
             {
-                foreach (var repositoryInterface in repository.GetInterfaces().Where(i => i.GetInterfaces().Contains(baseInterface)))
+                foreach (var repositoryInterface in repository.GetInterfaces()
+                    .Where(i => i.GetInterfaces().Contains(baseInterface)))
                 {
                     services.AddScoped(repositoryInterface, repository);
+                    services.AddScoped(repository);
                 }                    
             }
 

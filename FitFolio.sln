@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFolio.Api", "FitFolio.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFolio.Data.Models", "FitFolio.Data.Models\FitFolio.Data.Models.csproj", "{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFolio.Domain", "FitFolio.Domain\FitFolio.Domain.csproj", "{0B1AC829-A02B-4A2C-902B-909BE7806689}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEAE8F12-C7F2-4463-A06E-068E25ACBA6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B1AC829-A02B-4A2C-902B-909BE7806689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1AC829-A02B-4A2C-902B-909BE7806689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1AC829-A02B-4A2C-902B-909BE7806689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1AC829-A02B-4A2C-902B-909BE7806689}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitFolio.Data\FitFolio.Data.csproj" />
+    <ProjectReference Include="..\FitFolio.Domain\FitFolio.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

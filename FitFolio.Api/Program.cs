@@ -1,4 +1,5 @@
 using FitFolio.Data.DependencyInjection;
+using FitFolio.Domain.DependencyInjection;
 using Serilog;
 
 namespace FitFolio.Api;
@@ -29,6 +30,7 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddFitFolioData(new DataAccessLayerOptions(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddDomainServices();
 
         var app = builder.Build();
 
