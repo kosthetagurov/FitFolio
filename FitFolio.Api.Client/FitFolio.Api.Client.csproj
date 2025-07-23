@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FitFolio.Api.Client.Models\FitFolio.Api.Client.Models.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -50,7 +50,7 @@ namespace FitFolio.Api.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("add-detail")]
         public async Task<IActionResult> AddDetail([FromBody] AddWorkoutDetailRequestBody requestBody)
         {
             if (requestBody == null)
@@ -83,6 +83,7 @@ namespace FitFolio.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("update-comment")]
         public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentRequestBody requestBody)
         {
             if (requestBody == null)
