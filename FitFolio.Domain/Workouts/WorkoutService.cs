@@ -36,6 +36,11 @@ namespace FitFolio.Domain.Workouts
             await _workoutDetailRepository.CreateAsync(workoutDetail);
         }
 
+        public async Task<Workout> GetWorkoutAsync(Guid id)
+        {
+            return await _workoutRepository.GetByIdAsync(id);
+        }
+
         public async Task StartAsync(ApplicationUser user, string name = null)
         {
             if (user == null)

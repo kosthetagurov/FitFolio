@@ -28,6 +28,11 @@ namespace FitFolio.Domain.Exercises
             await _exerciseRepository.GetAsync(skip, take);
         }
 
+        public async Task<Exercise> GetExerciseAsync(Guid id)
+        {
+            return await _exerciseRepository.GetByIdAsync(id);
+        }
+
         public async Task UpdateAsync(Exercise exercise)
         {
             await _exerciseRepository.UpdateAsync(exercise);

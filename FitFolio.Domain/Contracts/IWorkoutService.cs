@@ -4,6 +4,7 @@ namespace FitFolio.Domain.Contracts
 {
     public interface IWorkoutService : IDomainService
     {
+        Task<Workout> GetWorkoutAsync(Guid id);
         Task StartAsync(ApplicationUser user, string name = null);
         Task StopAsync(Workout workout);
         Task AddDetail(WorkoutDetail workoutDetail);
