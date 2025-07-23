@@ -1,9 +1,10 @@
 ﻿using FitFolio.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitFolio.Data.Access
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
             : base(options)
@@ -37,6 +38,8 @@ namespace FitFolio.Data.Access
                 .WithMany()
                 .HasForeignKey(awe => awe.ExerciseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
