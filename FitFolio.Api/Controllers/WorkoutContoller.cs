@@ -31,9 +31,9 @@ namespace FitFolio.Api.Controllers
 
             var user = await _userManager.FindByIdAsync(requestBody.UserId.ToString());
 
-            await _workoutService.StartAsync(user, requestBody.WorkoutName);
+            var workout = await _workoutService.StartAsync(user, requestBody.WorkoutName);
 
-            return Ok();
+            return new JsonResult(workout);
         }
 
         [HttpPost("stop")]

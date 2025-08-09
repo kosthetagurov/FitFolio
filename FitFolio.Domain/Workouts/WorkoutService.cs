@@ -41,7 +41,7 @@ namespace FitFolio.Domain.Workouts
             return await _workoutRepository.GetByIdAsync(id);
         }
 
-        public async Task StartAsync(ApplicationUser user, string name = null)
+        public async Task<Workout> StartAsync(ApplicationUser user, string name = null)
         {
             if (user == null)
             {
@@ -50,7 +50,7 @@ namespace FitFolio.Domain.Workouts
 
             var now = DateTime.Now;
 
-            await _workoutRepository.CreateAsync(new Workout
+            return await _workoutRepository.CreateAsync(new Workout
             {
                 Name = name ?? $"Тренировка {now}",
                 StartDate = now,

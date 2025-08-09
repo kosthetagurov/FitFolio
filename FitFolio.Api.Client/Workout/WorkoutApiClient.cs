@@ -3,36 +3,41 @@ using System.Net.Http.Json;
 
 namespace FitFolio.Api.Client.Workout
 {
-    public class WorkoutApiClient
+    public class WorkoutApiClient : ApiClientBase
     {
-        private readonly HttpClient _httpClient;
-
-        public WorkoutApiClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
+        public WorkoutApiClient(IHttpClientFactory httpClientFactory, Uri baseUri) 
+            : base(httpClientFactory, baseUri)
+        {         
         }
 
-        public async Task StartAsync(WorkoutStartRequestBody request)
+        public async Task<Data.Models.Workout> StartAsync(WorkoutStartRequestBody request)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/workout/start", request);
+            using var httpClient = CreateClient();
+            var response = await httpClient.PostAsJsonAsync("api/workout/start", request);
             response.EnsureSuccessStatusCode();
+
+            var json = await ResponseAsStringAsync(response);
+            return ResponseStringAsType<Data.Models.Workout>(json);
         }
 
         public async Task StopAsync(Guid workoutId)
         {
-            var response = await _httpClient.PostAsync($"api/workout/stop?id={workoutId}", null);
+            using var httpClient = CreateClient();
+            var response = await httpClient.PostAsync($"api/workout/stop?id={workoutId}", null);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task AddDetailAsync(AddWorkoutDetailRequestBody request)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/workout/add-detail", request);
+            using var httpClient = CreateClient();
+            var response = await httpClient.PostAsJsonAsync("api/workout/add-detail", request);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task UpdateCommentAsync(UpdateCommentRequestBody request)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/workout/update-comment", request);
+            using var httpClient = CreateClient();
+            var response = await httpClient.PostAsJsonAsync("api/workout/update-comment", request);
             response.EnsureSuccessStatusCode();
         }
     }
