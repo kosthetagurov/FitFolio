@@ -48,7 +48,7 @@ namespace FitFolio.Api.Controllers
         /// <param name="take">Number of items to take (default: 20).</param>
         /// <returns>List of exercises.</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Exercise>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetList([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
@@ -57,8 +57,13 @@ namespace FitFolio.Api.Controllers
                 return BadRequest("Skip parameter must be non-negative");
             }
 
-            await _exerciseService.GetAsync(skip, take);
-            return Ok();
+            if (take <= 0 || take > 100)
+            {
+                return BadRequest("Take parameter must be between 1 and 100");
+            }
+
+            var exercises = await _exerciseService.GetAsync(skip, take);
+            return Ok(exercises);
         }
 
         /// <summary>
@@ -141,10 +146,7 @@ namespace FitFolio.Api.Controllers
 
             await _exerciseService.UpdateAsync(exercise);
 
-            // Return the updated exercise
-            var updatedExercise = await _exerciseService.GetExerciseAsync(requestBody.Id);
-
-            return Ok(updatedExercise);
+            return Ok(exercise);
         }
 
         /// <summary>

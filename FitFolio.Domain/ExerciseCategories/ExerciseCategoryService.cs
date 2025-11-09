@@ -23,9 +23,9 @@ namespace FitFolio.Domain.ExerciseCategories
             await _exerciseRepository.DeleteAsync(exerciseCategory);
         }
 
-        public async Task GetAsync(int skip, int take = 20)
+        public async Task<IEnumerable<ExerciseCategory>> GetAsync(int skip, int take = 20)
         {
-            await _exerciseRepository.GetAsync(skip, take);
+            return await _exerciseRepository.GetAsync(skip, take);
         }
 
         public async Task<ExerciseCategory> GetExerciseAsync(Guid id)

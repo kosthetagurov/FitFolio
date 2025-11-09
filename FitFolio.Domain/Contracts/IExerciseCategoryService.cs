@@ -6,7 +6,7 @@ namespace FitFolio.Domain.Contracts
     {
         Task<ExerciseCategory> GetExerciseAsync(Guid id);
         Task CreateAsync(ExerciseCategory exercise);
-        Task GetAsync(int skip, int take = 20);
+        Task<IEnumerable<ExerciseCategory>> GetAsync(int skip, int take = 20);
         Task UpdateAsync(ExerciseCategory exercise);
         Task DeleteAsync(ExerciseCategory exercise);
     }
