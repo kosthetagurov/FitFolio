@@ -49,9 +49,10 @@ namespace FitFolio.Api.Client.ExerciseCategory
         /// </summary>
         /// <param name="request">The exercise category update parameters.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The updated exercise category.</returns>
         /// <exception cref="ArgumentNullException">Thrown when request is null.</exception>
         /// <exception cref="ApiException">Thrown when API request fails.</exception>
-        Task UpdateAsync(
+        Task<Data.Models.ExerciseCategory> UpdateAsync(
             UpdateExerciseCategoryRequestBody request,
             CancellationToken cancellationToken = default);
 

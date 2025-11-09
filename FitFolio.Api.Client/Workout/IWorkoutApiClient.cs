@@ -46,9 +46,10 @@ namespace FitFolio.Api.Client.Workout
         /// </summary>
         /// <param name="request">The comment update parameters.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The updated workout.</returns>
         /// <exception cref="ArgumentNullException">Thrown when request is null.</exception>
         /// <exception cref="ApiException">Thrown when API request fails.</exception>
-        Task UpdateCommentAsync(
+        Task<Data.Models.Workout> UpdateCommentAsync(
             UpdateCommentRequestBody request, 
             CancellationToken cancellationToken = default);
     }

@@ -120,7 +120,7 @@ namespace FitFolio.Api.Client.ExerciseCategory
         }
 
         /// <inheritdoc />
-        public async Task UpdateAsync(
+        public async Task<Data.Models.ExerciseCategory> UpdateAsync(
             UpdateExerciseCategoryRequestBody request,
             CancellationToken cancellationToken = default)
         {
@@ -143,12 +143,13 @@ namespace FitFolio.Api.Client.ExerciseCategory
 
             try
             {
-                await PutAsync(
+                var category = await PutAsync<Data.Models.ExerciseCategory>(
                     "api/exercise-category",
                     request,
                     cancellationToken);
 
                 _logger.LogInformation("Exercise category {CategoryId} updated successfully", request.Id);
+                return category;
             }
             catch (Exception ex)
             {

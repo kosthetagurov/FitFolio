@@ -22,6 +22,9 @@ namespace FitFolio.Api.Controllers
         /// <param name="id">The exercise ID.</param>
         /// <returns>The exercise if found.</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Exercise), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
@@ -45,6 +48,8 @@ namespace FitFolio.Api.Controllers
         /// <param name="take">Number of items to take (default: 20).</param>
         /// <returns>List of exercises.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetList([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             if (skip < 0)
@@ -60,8 +65,10 @@ namespace FitFolio.Api.Controllers
         /// Creates a new exercise.
         /// </summary>
         /// <param name="requestBody">The exercise data.</param>
-        /// <returns>The created exercise.</returns>
+        /// <returns>The created exercise with 201 Created status.</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(Exercise), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateExerciseRequestBody requestBody)
         {
             if (requestBody == null)
@@ -95,8 +102,11 @@ namespace FitFolio.Api.Controllers
         /// Updates an existing exercise.
         /// </summary>
         /// <param name="requestBody">The updated exercise data.</param>
-        /// <returns>No content if successful.</returns>
+        /// <returns>The updated exercise with 200 OK status.</returns>
         [HttpPut]
+        [ProducesResponseType(typeof(Exercise), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update([FromBody] UpdateExerciseRequestBody requestBody)
         {
             if (requestBody == null)
@@ -131,15 +141,21 @@ namespace FitFolio.Api.Controllers
 
             await _exerciseService.UpdateAsync(exercise);
 
-            return NoContent();
+            // Return the updated exercise
+            var updatedExercise = await _exerciseService.GetExerciseAsync(requestBody.Id);
+
+            return Ok(updatedExercise);
         }
 
         /// <summary>
         /// Deletes an exercise.
         /// </summary>
         /// <param name="id">The exercise ID.</param>
-        /// <returns>No content if successful.</returns>
+        /// <returns>204 No Content if successful.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (id == Guid.Empty)

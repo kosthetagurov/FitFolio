@@ -125,7 +125,7 @@ namespace FitFolio.Api.Client.Exercise
         }
 
         /// <inheritdoc />
-        public async Task UpdateAsync(
+        public async Task<Data.Models.Exercise> UpdateAsync(
             UpdateExerciseRequestBody request,
             CancellationToken cancellationToken = default)
         {
@@ -153,12 +153,13 @@ namespace FitFolio.Api.Client.Exercise
 
             try
             {
-                await PutAsync(
+                var exercise = await PutAsync<Data.Models.Exercise>(
                     "api/exercise",
                     request,
                     cancellationToken);
 
                 _logger.LogInformation("Exercise {ExerciseId} updated successfully", request.Id);
+                return exercise;
             }
             catch (Exception ex)
             {

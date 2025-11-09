@@ -135,7 +135,7 @@ namespace FitFolio.Api.Client.Workout
         }
 
         /// <inheritdoc />
-        public async Task UpdateCommentAsync(
+        public async Task<Data.Models.Workout> UpdateCommentAsync(
             UpdateCommentRequestBody request, 
             CancellationToken cancellationToken = default)
         {
@@ -155,14 +155,16 @@ namespace FitFolio.Api.Client.Workout
 
             try
             {
-                await PostAsync(
-                    "api/workout/update-comment",
+                var workout = await PutAsync<Data.Models.Workout>(
+                    "api/workout/comment",
                     request,
                     cancellationToken);
 
                 _logger.LogInformation(
                     "Comment updated successfully for workout {WorkoutId}",
                     request.WorkoutId);
+
+                return workout;
             }
             catch (Exception ex)
             {
