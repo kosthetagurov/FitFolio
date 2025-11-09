@@ -21,13 +21,13 @@ namespace FitFolio.Domain.Workouts
 
         public async Task AddDetail(WorkoutDetail workoutDetail)
         {
-            var workout = _workoutRepository.GetByIdAsync(workoutDetail.WorkoutId);
+            var workout = await _workoutRepository.GetByIdAsync(workoutDetail.WorkoutId);
             if (workout == null)
             {
                 throw new Exception($"Workout with id = {workoutDetail.WorkoutId} not found");
             }
 
-            var exercise = _exerciseRepository.GetByIdAsync(workoutDetail.ExerciseId);
+            var exercise = await _exerciseRepository.GetByIdAsync(workoutDetail.ExerciseId);
             if (exercise == null)
             {
                 throw new Exception($"Exercise with id = {workoutDetail.ExerciseId} not found");
@@ -48,7 +48,7 @@ namespace FitFolio.Domain.Workouts
                 throw new ArgumentNullException(nameof(user));
             }
 
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
 
             return await _workoutRepository.CreateAsync(new Workout
             {
@@ -65,7 +65,7 @@ namespace FitFolio.Domain.Workouts
                 throw new ArgumentNullException(nameof(workout));
             }
 
-            workout.EndDate = DateTime.Now;
+            workout.EndDate = DateTime.UtcNow;
 
             await _workoutRepository.UpdateAsync(workout);
         }

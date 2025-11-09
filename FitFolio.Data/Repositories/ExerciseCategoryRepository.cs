@@ -2,6 +2,7 @@
 using FitFolio.Data.Models;
 using FitFolio.Data.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FitFolio.Data.Repositories
 {
@@ -23,12 +24,12 @@ namespace FitFolio.Data.Repositories
         public async Task DeleteAsync(ExerciseCategory item)
         {
             _context.ExerciseCategories.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ExerciseCategory>> FindAsync(Func<ExerciseCategory, bool> predicate)
+        public async Task<IEnumerable<ExerciseCategory>> FindAsync(Expression<Func<ExerciseCategory, bool>> predicate)
         {
-            return await Task.FromResult(_context.ExerciseCategories.Where(predicate));
+            return await _context.ExerciseCategories.Where(predicate).ToListAsync();
         }
 
         public async Task<ExerciseCategory> GetByIdAsync<TId>(TId id)

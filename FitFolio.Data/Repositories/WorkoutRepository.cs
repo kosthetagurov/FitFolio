@@ -2,6 +2,7 @@
 using FitFolio.Data.Models;
 using FitFolio.Data.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FitFolio.Data.Repositories
 {
@@ -26,9 +27,9 @@ namespace FitFolio.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Workout>> FindAsync(Func<Workout, bool> predicate)
+        public async Task<IEnumerable<Workout>> FindAsync(Expression<Func<Workout, bool>> predicate)
         {
-            return await Task.FromResult(_context.Workouts.Where(predicate));
+            return await _context.Workouts.Where(predicate).ToListAsync();
         }
 
         public async Task<Workout> GetByIdAsync<TId>(TId id)
