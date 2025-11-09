@@ -161,10 +161,7 @@ namespace FitFolio.Api.Controllers
 
             await _workoutService.UpdateComment(workout, requestBody.Comment);
 
-            // Refresh the workout to get updated data
-            var updatedWorkout = await _workoutService.GetWorkoutAsync(requestBody.WorkoutId);
-
-            return Ok(updatedWorkout);
+            return Ok(workout);
         }
     }
 }
