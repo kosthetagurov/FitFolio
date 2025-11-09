@@ -105,6 +105,26 @@ namespace FitFolio.Api.Controllers
                 return BadRequest("Exercise ID is required");
             }
 
+            if (requestBody.Sets.HasValue && requestBody.Sets.Value <= 0)
+            {
+                return BadRequest("Sets must be greater than 0");
+            }
+
+            if (requestBody.Repetitions.HasValue && requestBody.Repetitions.Value <= 0)
+            {
+                return BadRequest("Repetitions must be greater than 0");
+            }
+
+            if (requestBody.Weight.HasValue && requestBody.Weight.Value < 0)
+            {
+                return BadRequest("Weight cannot be negative");
+            }
+
+            if (requestBody.Duration.HasValue && requestBody.Duration.Value <= 0)
+            {
+                return BadRequest("Duration must be greater than 0");
+            }
+
             var workout = await _workoutService.GetWorkoutAsync(requestBody.WorkoutId);
             if (workout == null)
             {

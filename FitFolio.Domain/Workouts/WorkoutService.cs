@@ -27,6 +27,11 @@ namespace FitFolio.Domain.Workouts
                 throw new Exception($"Workout with id = {workoutDetail.WorkoutId} not found");
             }
 
+            if (workout.EndDate != null)
+            {
+                throw new InvalidOperationException("Cannot add details to a stopped workout");
+            }
+
             var exercise = await _exerciseRepository.GetByIdAsync(workoutDetail.ExerciseId);
             if (exercise == null)
             {
@@ -63,6 +68,11 @@ namespace FitFolio.Domain.Workouts
             if (workout == null)
             {
                 throw new ArgumentNullException(nameof(workout));
+            }
+
+            if (workout.EndDate != null)
+            {
+                throw new InvalidOperationException("Workout is already stopped");
             }
 
             workout.EndDate = DateTime.UtcNow;
